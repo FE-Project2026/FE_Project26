@@ -1,0 +1,69 @@
+/* src/pages/CommunityPage.css */
+
+/* 1. Hero Banner */
+.forum-hero {
+  background: linear-gradient(to right, #667db6, #0082c8, #0082c8, #667db6); /* Gradient xanh dịu */
+  padding: 80px 0 100px;
+  margin-top: -56px;
+  padding-top: 140px;
+}
+
+.forum-search {
+  max-width: 600px;
+}
+
+/* 2. Post Card Styles */
+.forum-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-radius: 12px !important;
+}
+
+.forum-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.08) !important;
+}
+
+.post-title {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+}
+
+.post-title:hover {
+  color: #0056b3 !important;
+  text-decoration: underline;
+}
+
+.post-content {
+  font-size: 0.95rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Chỉ hiện tối đa 2 dòng */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 3. Interactive Elements */
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.hover-text-danger:hover {
+  color: #dc3545 !important;
+}
+
+.hover-text-primary:hover {
+  color: #0d6efd !important;
+}
+
+/* 4. Sidebar Elements */
+.list-group-item {
+  border: none;
+  font-size: 0.95rem;
+  padding: 12px 20px;
+}
+.list-group-item:hover {
+  background-color: #f8f9fa;
+  color: #0d6efd;
+  font-weight: 500;
+}
