@@ -1,0 +1,265 @@
+/* =========================================
+   1. CẤU TRÚC KHUNG & HEADER
+   ========================================= */
+#wrapper {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 1000; /* Luôn nổi trên cùng */
+    width: 100%;
+}
+
+.header {
+    background-color: #fff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); /* Bóng đổ mềm mại hơn */
+    height: 80px; /* Chiều cao cố định */
+    display: flex;
+    align-items: center; /* Căn giữa nội dung theo chiều dọc */
+}
+
+.container {
+    width: 100%;
+    max-width: 1400px; /* Rộng hơn chút để thoáng */
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between; /* Dàn đều: Logo - Menu - Action */
+    align-items: center;
+    width: 100%;
+}
+
+/* =========================================
+   2. MAIN MENU (MENU CẤP 1)
+   ========================================= */
+#main-menu {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 5px; /* Khoảng cách giữa các mục menu */
+}
+
+#main-menu > li {
+    position: relative;
+    display: block;
+}
+
+#main-menu > li > a {
+    color: #333;
+    display: block;
+    text-decoration: none;
+    padding: 28px 15px; /* Padding cao để dễ hover từ xa */
+    font-weight: 600;
+    font-size: 16px;
+    transition: color 0.3s ease;
+}
+
+/* Hiệu ứng gạch chân màu xanh */
+#main-menu > li > a::before {
+    content: "";
+    height: 3px;
+    width: 0px;
+    background: #51e940; /* Màu xanh lá chủ đạo */
+    position: absolute;
+    bottom: 0px;
+    left: 50%;
+    transform: translateX(-50%); /* Hiệu ứng mở từ giữa ra */
+    transition: width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+#main-menu > li:hover > a {
+    color: #51e940;
+}
+
+#main-menu > li:hover > a::before {
+    width: 100%;
+}
+
+/* =========================================
+   3. SUB MENU (MENU CẤP 2)
+   ========================================= */
+#main-menu ul.sub-menu {
+    position: absolute;
+    top: 100%; /* Hiện ngay dưới menu cha */
+    left: 0;
+    width: 240px;
+    background: #fff;
+    list-style: none;
+    padding: 10px 0;
+    border-radius: 0 0 8px 8px; /* Bo tròn 2 góc dưới */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border-top: 3px solid #51e940; /* Viền trên màu xanh */
+    
+    /* Ẩn mặc định */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+}
+
+/* Hiện menu khi hover */
+#main-menu li:hover > ul.sub-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+#main-menu ul.sub-menu li {
+    display: block;
+}
+
+#main-menu ul.sub-menu a {
+    display: block;
+    padding: 12px 20px;
+    color: #555;
+    text-decoration: none;
+    font-size: 15px;
+    border-bottom: 1px dashed #eee;
+    transition: all 0.2s ease;
+}
+
+#main-menu ul.sub-menu li:last-child a {
+    border-bottom: none;
+}
+
+/* Hover vào mục con */
+#main-menu ul.sub-menu li:hover > a {
+    background-color: #f8fff7;
+    color: #51e940;
+    padding-left: 28px; /* Đẩy chữ sang phải */
+}
+
+/* =========================================
+   4. ICONS (FONT AWESOME)
+   ========================================= */
+/* Mũi tên xuống */
+#main-menu > li.has-child > a::after {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content: "\f107"; /* Angle Down */
+    margin-left: 8px;
+    font-size: 12px;
+    color: #999;
+    transition: transform 0.3s;
+}
+
+/* Xoay mũi tên khi hover */
+#main-menu > li.has-child:hover > a::after {
+    transform: rotate(180deg);
+    color: #51e940;
+}
+
+/* Mũi tên phải trong sub-menu */
+#main-menu .sub-menu > li.has-child > a::after {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content: "\f105"; /* Angle Right */
+    float: right;
+}
+
+/* =========================================
+   5. KHU VỰC BÊN PHẢI (LANGUAGE + LOGIN)
+   ========================================= */
+.header-actions {
+    display: flex;
+    align-items: center;
+}
+
+/* Language Switcher */
+.language-switcher {
+    position: relative;
+    margin-right: 20px;
+    padding: 10px 0; /* Tăng diện tích hover */
+}
+
+.language-icon {
+    font-size: 26px;
+    cursor: pointer;
+    color: #666;
+    display: flex;
+    align-items: center;
+    transition: color 0.3s;
+}
+
+.language-icon:hover {
+    color: #51e940;
+}
+
+.language-dropdown {
+    position: absolute;
+    top: 100%;
+    right: -10px; /* Căn lề phải */
+    width: 150px;
+    background-color: white;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    overflow: hidden;
+    
+    /* Ẩn mặc định */
+    display: none; 
+    z-index: 1001;
+}
+
+.language-switcher:hover .language-dropdown {
+    display: block;
+    animation: fadeInUp 0.3s ease;
+}
+
+.language-dropdown button {
+    width: 100%;
+    padding: 12px 15px;
+    background: none;
+    border: none;
+    text-align: left;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+    border-bottom: 1px solid #f5f5f5;
+    transition: background 0.2s;
+}
+
+.language-dropdown button:last-child {
+    border-bottom: none;
+}
+
+.language-dropdown button:hover {
+    background-color: #f0fdf4; /* Xanh rất nhạt */
+    color: #51e940;
+}
+
+/* Login Button */
+.login-button {
+    display: inline-block;
+    padding: 10px 28px;
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    color: #fff !important;
+    text-decoration: none;
+    border-radius: 50px; /* Bo tròn hoàn toàn */
+    font-weight: 700;
+    font-size: 15px;
+    box-shadow: 0 4px 15px rgba(37, 117, 252, 0.3);
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.login-button:hover {
+    background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%); /* Đảo màu gradient */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(37, 117, 252, 0.4);
+}
+
+/* Animation nhẹ */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

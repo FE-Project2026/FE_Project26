@@ -1,0 +1,27 @@
+/* src/pages/AboutPage.css */
+
+.about-hero {
+  /* Gradient Cam - Xám Xanh */
+  background: linear-gradient(135deg, #FF9966 0%, #FF5E62 100%);
+  padding: 100px 0;
+  margin-top: -56px; /* Đẩy lên đè dưới Navbar */
+  padding-top: 150px; /* Bù khoảng trống cho Navbar */
+  margin-bottom: 2rem;
+}
+
+.card-hover {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-hover:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+}
+
+.icon-box {
+    transition: transform 0.2s;
+}
+
+.icon-box:hover {
+    transform: scale(1.1);
+}

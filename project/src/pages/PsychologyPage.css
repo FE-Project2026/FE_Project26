@@ -1,0 +1,92 @@
+/* src/pages/PsychologyPage.css */
+
+/* 1. Hero Section */
+.psy-hero {
+  background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%);
+  color: white;
+  padding: 80px 0;
+  margin-top: -56px; /* Bù trừ cho navbar fixed nếu cần */
+  padding-top: 100px; /* Đẩy nội dung xuống */
+}
+
+.highlight-text {
+  color: #ffde59; /* Màu vàng nổi bật */
+}
+
+.hero-img {
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  max-width: 80%;
+}
+
+.btn-booking {
+  background-color: #ffde59;
+  border-color: #ffde59;
+  color: #333;
+  font-weight: bold;
+}
+.btn-booking:hover {
+  background-color: #e6c84c;
+  color: #000;
+}
+
+/* 2. Feature Cards */
+.section-title {
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.feature-card {
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-10px);
+}
+
+.icon-wrapper {
+  width: 70px;
+  height: 70px;
+  background-color: #eef2ff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.psy-icon {
+  font-size: 30px;
+  color: #2575fc;
+}
+
+/* 3. Service Cards */
+.psy-services {
+  background-color: #f8f9fa;
+}
+
+.service-card {
+  border: none;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+}
+
+.service-card:hover {
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.service-card img {
+  height: 200px;
+  object-fit: cover;
+}
+
+/* 4. CTA Section */
+.psy-cta {
+  background: #6a11cb;
+  color: white;
+}
