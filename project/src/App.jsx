@@ -20,12 +20,12 @@ import RegisterPage from './pages/RegisterPage.jsx';
 import PrivateDoctors from './pages/PrivateDoctors.jsx';
 import ProfilePage from './pages/ProfilePage.jsx';
 import AdminDashboard from './pages/admin/AdminDashboard.jsx'; 
-import PsychologyPage from './pages/PsychologyPage';
+import PsychologyPage from './pages/PsychologyPage.jsx';
 import TelemedicinePage from './pages/TelemedicinePage.jsx';
-import ExpertListPage from './pages/ExpertListPage';
-import ExpertConsultPage from './pages/ExpertConsultPage';
-import CommunityPage from './pages/CommunityPage';
-import AboutPage from './pages/AboutPage';
+import ExpertListPage from './pages/ExpertListPage.jsx';
+import ExpertConsultPage from './pages/ExpertConsultPage.jsx';
+import CommunityPage from './pages/CommunityPage.jsx';
+import AboutPage from './pages/AboutPage.jsx';
 // Import CSS
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css'; 

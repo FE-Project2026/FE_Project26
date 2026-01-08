@@ -121,8 +121,8 @@ function MainNavbar() {
       <Container>
         {/* LOGO */}
         <Navbar.Brand as={Link} to="/">
-            <img src="/Media/logo.svg" alt="Health Care Logo" width="50px" />
-             Health Care
+            <img src="/Media/logo.png" alt="Health Care Logo" width="50px" />
+            
         </Navbar.Brand>
         
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
