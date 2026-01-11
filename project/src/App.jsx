@@ -26,6 +26,12 @@ import ExpertListPage from './pages/ExpertListPage.jsx';
 import ExpertConsultPage from './pages/ExpertConsultPage.jsx';
 import CommunityPage from './pages/CommunityPage.jsx';
 import AboutPage from './pages/AboutPage.jsx';
+<<<<<<< HEAD
+=======
+import Dashboard from './pages/doctor/DoctorDashBoard.jsx';
+import DoctorLogin from './pages/doctor/DoctorLogin.jsx';
+import DoctorRegister from './pages/doctor/DoctorRegister.jsx';
+>>>>>>> f1afa857 ( 11-1)
 // Import CSS
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css'; 
@@ -69,6 +75,13 @@ function App() {
       <Route path="/community/forum" element={<CommunityPage />} />
       <Route path="/community/support" element={<CommunityPage />} />
       <Route path="/about" element={<AboutPage />} />
+<<<<<<< HEAD
+=======
+      <Route path= "/doctor/login" element= {<DoctorLogin/>} />
+      <Route path= "/doctor/register" element= {<DoctorRegister/>} />
+      <Route path= "/doctor/dashboard" element= {<Dashboard/>} />
+      
+>>>>>>> f1afa857 ( 11-1)
       <Route path="/about/mission" element={<AboutPage />} />
       {/* === 3. TUYẾN ĐƯỜNG ADMIN (ĐƯỢC BẢO VỆ) === */}
       <Route element={<ProtectedRoute />}>

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* =========================================
    1. CẤU TRÚC KHUNG & HEADER
    ========================================= */
@@ -253,6 +254,160 @@ nav {
 }
 
 /* Animation nhẹ */
+=======
+/* src/components/Navbar.css */
+
+/* =========================================
+   1. CẤU TRÚC NAVBAR CHÍNH
+   ========================================= */
+.navbar {
+    background-color: #fff !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); /* Bóng đổ mềm mại */
+    transition: all 0.3s ease;
+    margin-top:-80px;
+}
+
+/* Logo */
+.navbar-brand img {
+    transition: transform 0.3s;
+}
+.navbar-brand:hover img {
+    transform: scale(1.05);
+}
+
+/* =========================================
+   2. MAIN MENU (MENU CẤP 1)
+   ========================================= */
+/* Căn chỉnh các link */
+.navbar-nav .nav-link,
+.navbar-nav .nav-item.dropdown > a {
+    color: #333 !important;
+    font-weight: 600;
+    font-size: 16px;
+    padding: 28px 15px !important; /* Để full chiều cao navbar */
+    position: relative;
+    transition: color 0.3s ease;
+    display: flex;
+    align-items: center;
+}
+
+/* Hiệu ứng gạch chân màu xanh */
+.navbar-nav .nav-link::before,
+.navbar-nav .nav-item.dropdown > a::before {
+    content: "";
+    height: 3px;
+    width: 0px;
+    background: #51e940; /* Màu xanh lá chủ đạo */
+    position: absolute;
+    bottom: 0px;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Hover vào link cấp 1 */
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-item.dropdown:hover > a {
+    color: #51e940 !important;
+}
+
+.navbar-nav .nav-link:hover::before,
+.navbar-nav .nav-item.dropdown:hover > a::before {
+    width: 100%;
+}
+
+/* =========================================
+   3. SUB MENU (MENU CẤP 2 - DROPDOWN)
+   ========================================= */
+/* Khung menu sổ xuống */
+.dropdown-menu {
+    border: none !important;
+    border-top: 3px solid #51e940 !important; /* Viền trên màu xanh */
+    border-radius: 0 0 8px 8px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 10px 0 !important;
+    margin-top: 0 !important; /* Dính liền với navbar */
+    animation: fadeInUp 0.3s ease;
+}
+
+/* Các mục con trong menu */
+.dropdown-item {
+    padding: 12px 20px !important;
+    color: #555 !important;
+    font-size: 15px !important;
+    border-bottom: 1px dashed #eee;
+    transition: all 0.2s ease;
+    background: transparent !important;
+}
+
+.dropdown-item:last-child {
+    border-bottom: none;
+}
+
+/* Hover vào mục con */
+.dropdown-item:hover {
+    background-color: #f8fff7 !important; /* Nền xanh rất nhạt */
+    color: #51e940 !important;
+    padding-left: 28px !important; /* Hiệu ứng đẩy chữ sang phải */
+}
+
+/* Mũi tên Dropdown của Bootstrap */
+.nav-item.dropdown > a::after {
+    margin-left: 8px;
+    transition: transform 0.3s;
+}
+.nav-item.dropdown:hover > a::after {
+    transform: rotate(180deg);
+    color: #51e940;
+}
+
+/* =========================================
+   4. USER & LANGUAGE (BÊN PHẢI)
+   ========================================= */
+/* Dropdown ngôn ngữ và User */
+.nav-action-button .dropdown-toggle::after {
+    display: none; /* Ẩn mũi tên mặc định của nút User cho đẹp */
+}
+
+/* Nút Login / Register */
+.btn-outline-primary {
+    border-color: #51e940 !important;
+    color: #51e940 !important;
+}
+.btn-outline-primary:hover {
+    background-color: #51e940 !important;
+    color: #fff !important;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #51e940 0%, #34c724 100%) !important;
+    border: none !important;
+    box-shadow: 0 4px 15px rgba(81, 233, 64, 0.4);
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #34c724 0%, #51e940 100%) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(81, 233, 64, 0.5);
+}
+
+/* =========================================
+   5. HIỆU ỨNG HOVER CHO DROPDOWN (DESKTOP)
+   ========================================= */
+/* Bootstrap mặc định phải click mới hiện menu. 
+   Đoạn này giúp hover là hiện menu luôn trên màn hình lớn */
+@media (min-width: 992px) {
+    .navbar-nav .dropdown:hover .dropdown-menu {
+        display: block;
+        margin-top: 0;
+    }
+}
+
+/* =========================================
+   6. ANIMATION
+   ========================================= */
+>>>>>>> f1afa857 ( 11-1)
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -262,4 +417,45 @@ nav {
         opacity: 1;
         transform: translateY(0);
     }
+<<<<<<< HEAD
+=======
+}
+
+/* =========================================
+   7. RESPONSIVE (MOBILE)
+   ========================================= */
+@media (max-width: 991px) {
+    .navbar {
+        height: auto; /* Mobile chiều cao tự động */
+        padding: 15px 0;
+    }
+    
+    .navbar-collapse {
+        background: #fff;
+        padding: 20px;
+        border-top: 1px solid #eee;
+        margin-top: 15px;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    }
+
+    .navbar-nav .nav-link {
+        padding: 10px 0 !important; /* Giảm padding trên mobile */
+    }
+
+    .navbar-nav .nav-link::before {
+        display: none; /* Tắt gạch chân trên mobile cho đỡ rối */
+    }
+    
+    .dropdown-menu {
+        border: none !important;
+        box-shadow: none;
+        padding-left: 20px !important; /* Thụt đầu dòng menu con */
+        border-left: 2px solid #51e940 !important;
+    }
+
+    .nav-action-button {
+        margin-top: 20px;
+        justify-content: center;
+    }
+>>>>>>> f1afa857 ( 11-1)
 }
