@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { Container, Card, Table, Badge, Button, Row, Col } from 'react-bootstrap';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import AIChat from '../components/AIChat';
 
 // FIREBASE
 import { db } from '../firebaseConfig';
