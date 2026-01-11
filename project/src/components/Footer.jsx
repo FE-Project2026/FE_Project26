@@ -1,13 +1,4 @@
 import React from 'react';
-<<<<<<< HEAD
-
-const Footer = () => {
-  return (
-    <footer className="bg-light text-center text-lg-start mt-4">
-      <div className="text-center p-3" style={{ backgroundColor: 'rgba(0, 0, 0, 0.05)' }}>
-        © 2025 Hệ thống Khám sức khỏe từ xa 
-      </div>
-=======
 import { Container, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { Facebook, Instagram, Youtube, Mail, Phone, MapPin } from 'lucide-react'; // Thêm icon cho đẹp
@@ -77,7 +68,6 @@ const Footer = () => {
           © {new Date().getFullYear()} Hệ thống Khám sức khỏe từ xa. All rights reserved.
         </div>
       </Container>
->>>>>>> f1afa857 ( 11-1)
     </footer>
   );
 };

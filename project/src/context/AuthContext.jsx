@@ -23,14 +23,10 @@ export const useAuth = () => {
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
-<<<<<<< HEAD
-
-=======
 const loginWithFacebook = () => {
     const provider = new FacebookAuthProvider();
     return signInWithPopup(auth, provider);
   };
->>>>>>> f1afa857 ( 11-1)
   // REGISTER
   // Cập nhật: Thêm 'setDoc' để tự động tạo 'role: user' khi đăng ký
   async function register(email, password) {
