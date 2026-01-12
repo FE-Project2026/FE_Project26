@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
+import "./AIChat.css";
 
 export default function AIChat() {
   const [messages, setMessages] = useState([
     { role: "assistant", content: "Xin chào, tôi là trợ lý sức khỏe AI. Bạn cần hỗ trợ gì?" }
   ]);
   const [input, setInput] = useState("");
+  const [isOpen, setIsOpen] = useState(true); // 👈 thêm state này
 
   const sendMessage = async () => {
     if (!input.trim()) return;
@@ -21,36 +23,46 @@ export default function AIChat() {
     });
 
     const data = await res.json();
-
     setMessages([...newMessages, { role: "assistant", content: data.reply }]);
   };
 
   return (
-    <div style={{
-      position: "fixed",
-      bottom: 20,
-      right: 20,
-      width: 300,
-      background: "#fff",
-      border: "1px solid #ddd",
-      borderRadius: 10,
-      padding: 10
-    }}>
-      <div style={{ height: 300, overflowY: "auto", marginBottom: 10 }}>
-        {messages.map((m, i) => (
-          <div key={i}>
-            <strong>{m.role === "user" ? "Bạn" : "AI"}:</strong> {m.content}
-          </div>
-        ))}
-      </div>
+    <>
+      {/* Icon khi thu nhỏ */}
+      {!isOpen && (
+        <div className="chat-fab" onClick={() => setIsOpen(true)}>
+          💬
+        </div>
+      )}
 
-      <Form.Control
-        value={input}
-        onChange={e => setInput(e.target.value)}
-        placeholder="Nhập câu hỏi..."
-        onKeyDown={e => e.key === "Enter" && sendMessage()}
-      />
-      <Button onClick={sendMessage} className="mt-2" size="sm">Gửi</Button>
-    </div>
+      {/* Chatbox */}
+      <div className={`chatbox ${isOpen ? "open" : "closed"}`}>
+        {/* Header */}
+        <div className="chatbox-header">
+          <span>AI Health Assistant</span>
+          <button onClick={() => setIsOpen(false)}>—</button>
+        </div>
+
+        {/* Nội dung chat */}
+        <div className="chatbox-body">
+          {messages.map((m, i) => (
+            <div key={i} className={`msg ${m.role}`}>
+              <strong>{m.role === "user" ? "Bạn" : "AI"}:</strong> {m.content}
+            </div>
+          ))}
+        </div>
+
+        {/* Input */}
+        <div className="chatbox-footer">
+          <Form.Control
+            value={input}
+            onChange={e => setInput(e.target.value)}
+            placeholder="Nhập câu hỏi..."
+            onKeyDown={e => e.key === "Enter" && sendMessage()}
+          />
+          <Button onClick={sendMessage} size="sm">Gửi</Button>
+        </div>
+      </div>
+    </>
   );
 }
