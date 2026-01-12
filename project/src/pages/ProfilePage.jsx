@@ -1,181 +1,113 @@
 // src/pages/ProfilePage.jsx
-
 import React, { useEffect, useState } from 'react';
-import { Container, Card, Table, Badge, Button, Row, Col, Alert } from 'react-bootstrap';
+import { Container, Card, Table, Badge, Button, Row, Col, Form } from 'react-bootstrap';
 import { useAuth } from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
-
-// IMPORT FIREBASE
 import { db } from '../firebaseConfig';
-import { 
-  collection, 
-  query, 
-  where, 
-  orderBy, 
-  onSnapshot, // Dùng cái này để lắng nghe thay đổi
-  deleteDoc, 
-  doc 
-} from "firebase/firestore";
+import { doc, getDoc, setDoc, collection, query, where, orderBy, onSnapshot } from "firebase/firestore";
+import toast, { Toaster } from 'react-hot-toast';
+
+const appId = "1:890631919643:web:de12fd43d3a24e4fa500be";
 
 function ProfilePage() {
   const { currentUser, logout } = useAuth();
-  const navigate = useNavigate();
   const [appointments, setAppointments] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [isEditing, setIsEditing] = useState(false);
+  const [profile, setProfile] = useState({ name: "", phone: "", address: "" });
 
-  // --- 1. TỰ ĐỘNG LẤY DỮ LIỆU & LẮNG NGHE THAY ĐỔI ---
+  // SỬA LỖI: Thêm kiểm tra currentUser để tránh lỗi dòng 39 và 45
+  const fetchProfile = async () => {
+    if (!currentUser?.uid) return;
+    try {
+      const ref = doc(db, 'artifacts', appId, 'users', currentUser.uid, 'profile', 'info');
+      const snap = await getDoc(ref);
+      if (snap.exists()) setProfile(snap.data());
+    } catch (err) {
+      console.error("Lỗi lấy hồ sơ:", err.message);
+    }
+  };
+
+  const handleSaveProfile = async () => {
+    if (!currentUser?.uid) return;
+    const loadToast = toast.loading("Đang lưu...");
+    try {
+      const ref = doc(db, 'artifacts', appId, 'users', currentUser.uid, 'profile', 'info');
+      await setDoc(ref, profile);
+      toast.success("Đã lưu!", { id: loadToast });
+      setIsEditing(false);
+    } catch (err) {
+      toast.error("Lỗi lưu dữ liệu", { id: loadToast });
+    }
+  };
+
   useEffect(() => {
-    if (!currentUser) return;
-    setLoading(true);
+    if (!currentUser?.uid) return;
 
-    // Tạo câu lệnh truy vấn
-    // Lưu ý: Nếu console báo lỗi index, hãy bấm vào link trong console để tạo index
+    fetchProfile();
     const q = query(
       collection(db, 'appointments'),
-      where('patientId', '==', currentUser.uid), // Chỉ lấy lịch của mình
-      orderBy('createdAt', 'desc') // Mới nhất lên đầu
+      where('patientId', '==', currentUser.uid),
+      orderBy('createdAt', 'desc')
     );
 
-    // Lắng nghe thời gian thực (Realtime Listener)
-    // Hễ database thay đổi (Bác sĩ duyệt) là code này chạy ngay lập tức
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const list = [];
-      snapshot.forEach((doc) => {
-        list.push({ id: doc.id, ...doc.data() });
-      });
-      setAppointments(list);
-      setLoading(false);
-    }, (error) => {
-      console.error("Lỗi lấy dữ liệu:", error);
-      setLoading(false);
+    const unsub = onSnapshot(q, (snapshot) => {
+      setAppointments(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+    }, (err) => {
+      console.error("Lỗi lấy lịch hẹn:", err.message); // Fix lỗi dòng 79
     });
 
-    // Dọn dẹp listener khi thoát trang (tránh rò rỉ bộ nhớ)
-    return () => unsubscribe();
+    return () => unsub();
   }, [currentUser]);
 
-  // --- 2. HÀM HỦY LỊCH ---
-  const handleUserCancel = async (id) => {
-    if(!window.confirm("Bạn có chắc chắn muốn hủy lịch hẹn này không?")) return;
-    
-    try {
-        // Xóa document khỏi bảng 'appointments'
-        await deleteDoc(doc(db, 'appointments', id));
-        // Không cần gọi fetch lại vì onSnapshot sẽ tự cập nhật giao diện
-        alert("Đã hủy lịch thành công.");
-    } catch (err) {
-        console.error("Lỗi hủy:", err);
-        alert("Lỗi khi hủy lịch. Vui lòng thử lại.");
-    }
-  };
-
-  const handleLogout = async () => {
-    await logout();
-    navigate('/login');
-  };
-
-  // --- 3. HÀM HIỂN THỊ TRẠNG THÁI (MAPPING) ---
-  const renderStatus = (status) => {
-    // Chuyển về chữ thường để so sánh (tránh lỗi Approved vs approved)
-    const s = status ? status.toLowerCase() : 'pending';
-
-    switch (s) {
-        case 'approved': 
-        case 'confirmed': // <--- THÊM DÒNG NÀY (Để khớp với DB của bạn)
-        case 'đã xác nhận': 
-            return <Badge bg="success">Đã xác nhận</Badge>;
-        case 'đã xác nhận': // Phòng trường hợp lưu tiếng Việt
-            return <Badge bg="success">Đã xác nhận</Badge>;
-        case 'completed':
-            return <Badge bg="primary">Hoàn thành</Badge>;
-        case 'cancelled':
-            return <Badge bg="danger">Đã hủy</Badge>;
-        case 'pending':
-        default:
-            return <Badge bg="warning" text="dark">Chờ xác nhận</Badge>;
-    }
+  const renderStatus = (s) => {
+    const status = s?.toLowerCase() || 'pending';
+    if (status === 'confirmed' || status === 'approved') return <Badge bg="success">Đã xác nhận</Badge>;
+    if (status === 'completed') return <Badge bg="primary">Hoàn thành</Badge>;
+    return <Badge bg="warning" text="dark">Chờ xác nhận</Badge>;
   };
 
   return (
-    <Container style={{ marginTop: '100px', marginBottom: '50px' }}>
+    <Container style={{ marginTop: '100px' }}>
+      <Toaster />
       <Row>
-        {/* CỘT TRÁI: THÔNG TIN USER */}
-        <Col md={4} className="mb-4">
-            <Card className="text-center p-4 shadow-sm border-0">
-                <div className="mb-3 mx-auto">
-                    <img 
-                        src={currentUser?.photoURL || "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"} 
-                        alt="Avatar" width="100" 
-                        className="rounded-circle border"
-                        style={{objectFit: 'cover', height: '100px'}}
-                    />
-                </div>
-                <h3 className="fw-bold">{currentUser?.displayName || "Người dùng"}</h3>
-                <p className="text-muted">{currentUser?.email}</p>
-                <Button variant="danger" size="sm" onClick={handleLogout} className="mt-2">Đăng xuất</Button>
-            </Card>
-        </Col>
-
-        {/* CỘT PHẢI: DANH SÁCH LỊCH HẸN */}
-        <Col md={8}>
-            <div className="d-flex justify-content-between align-items-center mb-4">
-                <h2 className="fw-bold m-0 text-primary">Lịch hẹn của tôi</h2>
-                {/* Badge này để báo hiệu tính năng realtime */}
-                <Badge bg="info" className="fw-normal"><i className="fas fa-bolt"></i> Tự động cập nhật</Badge>
-            </div>
-
-            {loading ? <div className="text-center p-5">Đang tải dữ liệu...</div> : (
-                appointments.length > 0 ? (
-                    <Card className="shadow-sm border-0 overflow-hidden">
-                        <Table hover responsive className="mb-0 align-middle">
-                            <thead className="bg-light text-secondary small text-uppercase">
-                                <tr>
-                                    <th className="ps-4">Bác sĩ</th>
-                                    <th>Thời gian</th>
-                                    <th>Ghi chú</th>
-                                    <th>Trạng thái</th>
-                                    <th>Hành động</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {appointments.map((app) => (
-                                    <tr key={app.id}>
-                                        <td className="ps-4">
-                                            <div className="fw-bold text-dark">{app.doctorName || "Bác sĩ"}</div>
-                                            <small className="text-muted">ID: {app.doctorId?.substring(0,6)}...</small>
-                                        </td>
-                                        <td>
-                                            <div className="fw-bold">{app.date}</div>
-                                            <small className="text-primary fw-bold">{app.time}</small>
-                                        </td>
-                                        <td style={{maxWidth: '200px'}}>
-                                            <small className="text-muted d-block text-truncate" title={app.notes}>
-                                                {app.notes || "Không có ghi chú"}
-                                            </small>
-                                        </td>
-                                        
-                                        {/* HIỂN THỊ TRẠNG THÁI */}
-                                        <td>{renderStatus(app.status)}</td>
-                                        
-                                        <td>
-                                            {/* Chỉ cho phép hủy khi đang chờ (pending) */}
-                                            {(!app.status || app.status.toLowerCase() === 'pending') && (
-                                                <Button variant="outline-danger" size="sm" onClick={() => handleUserCancel(app.id)}>
-                                                    Hủy
-                                                </Button>
-                                            )}
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </Table>
-                    </Card>
-                ) : (
-                    <Alert variant="info" className="text-center border-0 shadow-sm">
-                        Bạn chưa có lịch hẹn nào. Hãy vào mục <strong>Chuyên gia</strong> để đặt lịch nhé!
-                    </Alert>
-                )
+        <Col md={4}>
+          <Card className="p-4 shadow-sm border-0 text-center">
+            <img 
+              src={currentUser?.photoURL || "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"} 
+              width="100" className="rounded-circle mb-3 mx-auto" alt="avatar" 
+            />
+            {!isEditing ? (
+              <>
+                <h4>{profile.name || currentUser?.displayName || "Người dùng"}</h4>
+                <p className="text-muted small">{currentUser?.email}</p>
+                <Button variant="outline-primary" size="sm" onClick={() => setIsEditing(true)}>Sửa hồ sơ</Button>
+              </>
+            ) : (
+              <div className="text-start">
+                <Form.Control className="mb-2" value={profile.name} placeholder="Tên" onChange={e => setProfile({...profile, name: e.target.value})} />
+                <Form.Control className="mb-2" value={profile.phone} placeholder="SĐT" onChange={e => setProfile({...profile, phone: e.target.value})} />
+                <Button variant="primary" size="sm" className="w-100 mb-1" onClick={handleSaveProfile}>Lưu</Button>
+                <Button variant="light" size="sm" className="w-100" onClick={() => setIsEditing(false)}>Hủy</Button>
+              </div>
             )}
+            <Button variant="link" className="text-danger mt-3" onClick={logout}>Đăng xuất</Button>
+          </Card>
+        </Col>
+        <Col md={8}>
+          <h3 className="fw-bold mb-4">Lịch hẹn của tôi</h3>
+          <Card className="border-0 shadow-sm">
+            <Table hover responsive className="mb-0">
+              <thead><tr><th>Bác sĩ</th><th>Ngày</th><th>Trạng thái</th></tr></thead>
+              <tbody>
+                {appointments.map(app => (
+                  <tr key={app.id}>
+                    <td>{app.doctorName}</td>
+                    <td>{app.date}</td>
+                    <td>{renderStatus(app.status)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </Card>
         </Col>
       </Row>
     </Container>
