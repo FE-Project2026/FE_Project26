@@ -41,7 +41,7 @@ app.post("/chat", async (req, res) => {
     const userMessages = req.body.messages || [];
 
     const completion = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
+      model: "gpt-3.5-turbo",
       messages: [
         { role: "system", content: SYSTEM_PROMPT },
         ...userMessages,

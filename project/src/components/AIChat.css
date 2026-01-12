@@ -1,25 +1,30 @@
 /* Nút tròn khi thu nhỏ */
-.chatbox-fab {
-  position: fixed;             
+.chat-fab {
+  position: fixed;      /* BẮT BUỘC để cố định theo màn hình */
   bottom: 20px;
   right: 20px;
-  z-index: 9999;
+  z-index: 10000;
 
   width: 60px;
   height: 60px;
   background: #2563eb;
   color: white;
   border-radius: 50%;
-  display: grid;
-  place-items: center;
   font-size: 26px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   cursor: pointer;
   box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-  transition: transform 0.2s ease;
+
+  /* Chỉ cho phép animate nhẹ, không làm lệch vị trí */
+  transition: background 0.2s ease, box-shadow 0.2s ease;
 }
 
-.chatbox-fab:hover {
-  transform: scale(1.05);
+.chat-fab:hover {
+  background: #1d4ed8;
 }
 
 /* Chatbox */
