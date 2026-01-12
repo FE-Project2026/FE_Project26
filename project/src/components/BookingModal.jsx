@@ -4,11 +4,11 @@ import React, { useState } from 'react';
 import { Modal, Button, Form, Row, Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext'; 
-// IMPORT FIREBASE
 import { db } from '../firebaseConfig';
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+// 1. IMPORT TOAST
+import toast from 'react-hot-toast';
 
-// Lưu ý: Thêm prop doctorId vào đây để biết đặt cho ai
 function BookingModal({ show, handleClose, doctorId, doctorName }) {
   const { currentUser } = useAuth();
   const navigate = useNavigate();
@@ -22,49 +22,48 @@ function BookingModal({ show, handleClose, doctorId, doctorName }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!currentUser) return alert("Vui lòng đăng nhập để đặt lịch!");
+    
+    // 2. SỬ DỤNG TOAST CHO KIỂM TRA ĐĂNG NHẬP
+    if (!currentUser) {
+        toast.error("Vui lòng đăng nhập để đặt lịch!");
+        return;
+    }
 
-    // Kiểm tra xem có doctorId chưa (quan trọng)
     if (!doctorId) {
-        alert("Lỗi: Không tìm thấy ID bác sĩ. Vui lòng tải lại trang.");
+        toast.error("Lỗi: Không tìm thấy ID bác sĩ. Vui lòng tải lại trang.");
         return;
     }
 
     setLoading(true);
+    // 3. TẠO MỘT TOAST CHỜ (LOADING)
+    const loadingToast = toast.loading("Đang xử lý đặt lịch...");
+
     try {
-      // --- THAY ĐỔI QUAN TRỌNG ---
-      // Lưu vào collection "appointments" ở thư mục gốc (Root Collection)
-      // Để cả Bác sĩ và Bệnh nhân đều dễ dàng truy xuất
       const appointmentsRef = collection(db, 'appointments');
       
       await addDoc(appointmentsRef, {
-        // Thông tin người đặt (Bệnh nhân)
         patientId: currentUser.uid, 
         patientName: currentUser.displayName || currentUser.email,
         patientPhone: formData.phone,
-        
-        // Thông tin người nhận (Bác sĩ)
         doctorId: doctorId,         
         doctorName: doctorName,
-
-        // Chi tiết lịch hẹn
         date: formData.date,
         time: formData.time,
         notes: formData.notes,
-        
-        status: 'pending', // Trạng thái chờ
+        status: 'pending',
         createdAt: serverTimestamp()
       });
 
-      alert("Đặt lịch thành công! Vui lòng theo dõi trạng thái trong Hồ sơ cá nhân.");
+      // 4. CẬP NHẬT TOAST THÀNH THÀNH CÔNG
+      toast.success("Đặt lịch thành công!", { id: loadingToast });
+      
       handleClose();
-      // Chuyển hướng về trang Hồ sơ cá nhân để xem lịch vừa đặt
       navigate('/profile'); 
 
     } catch (error) {
       console.error("Lỗi đặt lịch:", error);
-      // In lỗi chi tiết ra để dễ debug
-      alert("Có lỗi xảy ra: " + error.message);
+      // 5. CẬP NHẬT TOAST THÀNH THẤT BẠI
+      toast.error("Có lỗi xảy ra: " + error.message, { id: loadingToast });
     }
     setLoading(false);
   };
@@ -77,7 +76,7 @@ function BookingModal({ show, handleClose, doctorId, doctorName }) {
       <Form onSubmit={handleSubmit}>
         <Modal.Body>
           <div className="alert alert-info py-2 small">
-             Đặt lịch với Bác sĩ: <strong>{doctorName}</strong>
+              Đặt lịch với Bác sĩ: <strong>{doctorName}</strong>
           </div>
           
           <Row className="mb-3">

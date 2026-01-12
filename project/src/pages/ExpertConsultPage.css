@@ -1,76 +1,39 @@
-/* src/pages/ExpertConsultPage.css */
+.consult-page {
+    background-color: #f4f7f6;
+    min-height: 100vh;
+}
 
-/* 1. Hero Banner */
 .consult-hero {
-  /* Gradient Tím - Xanh */
-  background: linear-gradient(135deg, #4e54c8 0%, #8f94fb 100%);
-  padding: 100px 0 120px; /* Padding bottom lớn để tạo hiệu ứng đè lên */
-  margin-top: -56px;
-  padding-top: 150px;
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    padding: 80px 0;
 }
 
-/* Hiệu ứng đẩy Card lên trên Banner */
-.mt-n5 {
-  margin-top: -80px !important;
+/* Style cho các bước quy trình */
+.step-icon {
+    background-color: #e7f1ff;
+    color: #007bff;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    flex-shrink: 0;
 }
 
-/* 2. Timeline List (Quy trình) */
-.timeline-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+.card {
+    transition: transform 0.3s ease;
 }
 
-.timeline-list li {
-  display: flex;
-  margin-bottom: 20px;
-  position: relative;
+.form-control:focus {
+    box-shadow: none;
+    border-color: #007bff;
 }
 
-.timeline-list li:last-child {
-  margin-bottom: 0;
-}
-
-/* Đường kẻ nối (Line) */
-.timeline-list li:not(:last-child)::after {
-  content: '';
-  position: absolute;
-  left: 15px;
-  top: 35px;
-  bottom: -15px;
-  width: 2px;
-  background-color: #e9ecef;
-}
-
-.timeline-list .number {
-  width: 32px;
-  height: 32px;
-  background-color: #e3f2fd;
-  color: #4e54c8;
-  font-weight: bold;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 15px;
-  flex-shrink: 0;
-  z-index: 1; /* Nằm trên đường kẻ */
-}
-
-/* 3. Form Styling */
-.form-label {
-  font-weight: 600;
-  color: #555;
-  font-size: 0.9rem;
-}
-
-.form-control, .form-select {
-  padding: 10px 15px;
-  border-radius: 8px;
-  border: 1px solid #dee2e6;
-}
-
-.form-control:focus, .form-select:focus {
-  border-color: #4e54c8;
-  box-shadow: 0 0 0 0.2rem rgba(78, 84, 200, 0.25);
+/* Responsive */
+@media (max-width: 768px) {
+    .consult-hero h1 {
+        font-size: 1.8rem;
+    }
 }
