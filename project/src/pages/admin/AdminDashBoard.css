@@ -1,22 +1,4 @@
-:root {
-  --primary: #3b82f6;
-  --primary-bg: #eff6ff;
-  --text-dark: #1e293b;
-  --text-gray: #64748b;
-  --border: #e2e8f0;
-  --bg-body: #f8fafc;
-  --sidebar-w: 260px;
-}
 
-/* --- 1. RESET & LAYOUT FULL SCREEN (FIX LỖI KHOẢNG TRẮNG) --- */
-* { box-sizing: border-box; }
-
-body, html {
-  margin: 0; padding: 0;
-  background-color: var(--bg-body);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  overflow: hidden; /* Khóa cuộn trang cha */
-}
 
 .admin-container {
   display: flex;

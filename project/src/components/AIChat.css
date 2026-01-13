@@ -1,0 +1,113 @@
+/* Nút tròn khi thu nhỏ */
+.chat-fab {
+  position: fixed;      /* BẮT BUỘC để cố định theo màn hình */
+  bottom: 20px;
+  right: 20px;
+  z-index: 10000;
+
+  width: 60px;
+  height: 60px;
+  background: #2563eb;
+  color: white;
+  border-radius: 50%;
+  font-size: 26px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+
+  /* Chỉ cho phép animate nhẹ, không làm lệch vị trí */
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.chat-fab:hover {
+  background: #1d4ed8;
+}
+
+/* Chatbox */
+.chatbox {
+  position: fixed;             
+  bottom: 20px;
+  right: 20px;
+  z-index: 9999;
+
+  width: 340px;
+  height: 460px;
+  background: white;
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Khi đóng */
+.chatbox.closed {
+  opacity: 0;
+  transform: translateY(30px) scale(0.95);
+  pointer-events: none;
+}
+
+/* Khi mở */
+.chatbox.open {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Header */
+.chatbox-header {
+  background: linear-gradient(135deg, #2563eb, #3b82f6);
+  color: white;
+  padding: 14px 16px;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chatbox-header button {
+  background: rgba(255,255,255,0.2);
+  border: none;
+  color: white;
+  font-size: 18px;
+  padding: 4px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* Body */
+.chatbox-body {
+  flex: 1;
+  padding: 16px;
+  background: #f8fafc;
+  overflow-y: auto;
+}
+
+/* Footer */
+.chatbox-footer {
+  padding: 12px;
+  display: flex;
+  gap: 8px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.chatbox-footer input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+}
+
+.chatbox-footer button {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+}
