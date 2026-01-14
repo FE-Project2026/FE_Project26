@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
+import { getStorage } from "firebase/storage"; // <--- THÊM DÒNG NÀY
 
 // Đã xác thực config dựa trên ảnh "image_8a6de0.png" của bạn
 const firebaseConfig = {
@@ -22,3 +23,4 @@ export const db = getFirestore(app);
 
 // SỬA LỖI: Export appId chính xác
 export const appId = firebaseConfig.appId;
+export const storage = getStorage(app); // <--- THÊM DÒNG NÀY VÀ EXPORT NÓ

@@ -1,11 +1,21 @@
-
+:root {
+  --sidebar-w: 260px;
+  --primary: #3b82f6;
+  --primary-bg: #eff6ff;
+  --bg-body: #f8fafc;
+  --border: #e2e8f0;
+  --text-dark: #0f172a;
+  --text-gray: #64748b;
+}
 
 .admin-container {
   display: flex;
-  width: 100vw; height: 100vh;
-  position: fixed; /* Đè lên toàn bộ trang web cũ */
-  top: 0; left: 0;
-  z-index: 9999;
+  width: 100vw; 
+  height: 100vh;
+  position: fixed; /* Cố định vị trí để không bị Navbar đẩy xuống */
+  top: 0; 
+  left: 0;
+  z-index: 9999; /* Đảm bảo nằm trên cùng tất cả các thành phần khác */
   background-color: var(--bg-body);
 }
 

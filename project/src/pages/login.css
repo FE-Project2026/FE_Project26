@@ -1,146 +1,141 @@
-/* src/pages/login.css (Đã sửa lỗi xung đột) */
+/* src/pages/login.css */
 
-/* --- CÀI ĐẶT CHUNG --- */
+:root {
+  --primary-gradient: linear-gradient(135deg, #6a11cb, #2575fc);
+  --secondary-bg: #f8fafc;
+  --text-main: #334155;
+  --text-muted: #64748b;
+  --error-bg: #fef2f2;
+  --error-text: #b91c1c;
+}
+
+/* --- CONTAINER CHÍNH --- */
 .login-container {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  padding-top: 56px;
+  padding: 80px 20px 40px 20px; /* Padding top để tránh bị Navbar đè */
+  background-color: var(--secondary-bg);
   box-sizing: border-box;
-  background-color: #f9faff;
 }
 
-/* --- HỘP NỘI DUNG CHÍNH (Gồm 2 cột) --- */
-/* SỬA LỖI: Thêm ".login-container" vào trước ".container"
-  để nó không ảnh hưởng đến Navbar
-*/
 .login-container .container {
   display: flex;
   width: 100%;
   max-width: 1000px;
   background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-  overflow: hidden; /* Dòng này an toàn vì đã có .login-container */
+  border-radius: 16px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+  position: relative;
 }
 
-/* --- CỘT BÊN TRÁI (FORM) --- */
-/* SỬA LỖI: Thêm ".login-container" */
+/* --- CỘT TRÁI: FORM ĐĂNG NHẬP --- */
 .login-container .containerContent {
-  flex-basis: 50%;
-  flex-grow: 1;
+  flex: 1;
   padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .login-container .containerContent h3 {
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: #888;
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
 }
 
 .login-container .containerContent h1 {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: #333;
-  margin-bottom: 1.5rem;
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-bottom: 2rem;
 }
 
-.login-container .containerContent label {
-  font-size: 0.9rem;
+/* Form Input */
+.login-container label {
+  font-size: 0.85rem;
   font-weight: 600;
+  color: var(--text-main);
   margin-bottom: 0.5rem;
-  margin-top: 0.5rem;
   display: block;
 }
 
 .login-container .inputRow {
   position: relative;
-  width: 100%;
+  margin-bottom: 1rem;
 }
 
 .login-container .inputRow input {
   width: 100%;
-  padding: 12px 15px;
-  padding-right: 45px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  font-size: 1rem;
+  padding: 12px 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  transition: all 0.2s;
 }
 
 .login-container .inputRow input:focus {
   outline: none;
   border-color: #6a11cb;
-  box-shadow: 0 0 5px rgba(106, 17, 203, 0.2);
+  box-shadow: 0 0 0 3px rgba(106, 17, 203, 0.1);
 }
 
 .login-container #password-eye {
   position: absolute;
-  top: 50%;
   right: 15px;
+  top: 50%;
   transform: translateY(-50%);
+  color: var(--text-muted);
   cursor: pointer;
-  color: #888;
-  font-size: 1.2rem;
 }
 
 .login-container .inputFP {
   text-align: right;
-  margin-top: 0.5rem;
   margin-bottom: 1.5rem;
 }
 
 .login-container .inputFP a {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: #6a11cb;
   text-decoration: none;
+  font-weight: 500;
 }
 
-/* Nút Login (style này đã có "btn-primary" nên không xung đột) */
+/* Nút Login */
 .login-container .btn-primary {
-  display: inline-block;
   width: 100%;
-  padding: 12px 25px;
-  background: linear-gradient(135deg, #6a11cb, #2575fc);
-  color: #fff !important;
-  text-decoration: none;
-  border-radius: 25px;
-  font-weight: bold;
-  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
-  transition: all 0.3s ease;
-  font-size: 1rem;
-  text-align: center;
+  padding: 13px;
+  background: var(--primary-gradient);
+  color: white !important;
   border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  transition: transform 0.2s, box-shadow 0.2s;
   cursor: pointer;
 }
+
 .login-container .btn-primary:hover {
-  background: linear-gradient(135deg, #2575fc, #92d67d);
-  box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.3);
-  transform: scale(1.02);
-}
-.login-container .btn-primary:disabled {
-  background: #ccc;
-  transform: none;
-  box-shadow: none;
-  cursor: not-allowed;
+  transform: translateY(-1px);
+  box-shadow: 0 10px 15px -3px rgba(106, 17, 203, 0.3);
 }
 
-
-/* --- CÁC LIÊN KẾT KHÁC --- */
+/* --- PHẦN LOGO GOOGLE & SOCIAL (SỬA LẠI ĐẸP HƠN) --- */
 .login-container .containerContent h6 {
   text-align: center;
-  color: #aaa;
   margin: 1.5rem 0;
+  color: var(--text-muted);
   position: relative;
 }
+
 .login-container .containerContent h6::before,
 .login-container .containerContent h6::after {
   content: "";
   position: absolute;
   top: 50%;
-  width: 35%;
+  width: 30%;
   height: 1px;
-  background-color: #ddd;
+  background: #e2e8f0;
 }
 .login-container .containerContent h6::before { left: 0; }
 .login-container .containerContent h6::after { right: 0; }
@@ -148,53 +143,39 @@
 .login-container .logins {
   display: flex;
   justify-content: center;
-  gap: 1.5rem;
-  margin-bottom: 1.5rem;
+  gap: 1rem;
 }
 
-.login-container .logins a img {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
+/* Nút Social gọn gàng */
+.login-container .social-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
 }
 
-.login-container .logins a:hover img {
-  transform: scale(1.1);
+.login-container .social-btn:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  transform: scale(1.05);
 }
 
-.login-container .containerContent p {
-  text-align: center;
-  font-size: 0.9rem;
+.login-container .social-btn img {
+  width: 24px; /* Thu nhỏ logo google lại cho cân đối */
+  height: 24px;
+  object-fit: contain;
 }
 
-.login-container .containerContent p a {
-  color: #6a11cb;
-  font-weight: 600;
-  text-decoration: none;
-}
-
-/* Nút "Get Back" */
-/* SỬA LỖI: Thêm ".login-container" */
-.login-container #quaylai {
-  position: absolute;
-  top: 80px; 
-  left: 30px;
-  z-index: 10;
-}
-
-.login-container #quaylai a {
-  color: #555;
-  text-decoration: none;
-  font-weight: 600;
-}
-
-/* --- CỘT BÊN PHẢI (ẢNH) --- */
-/* SỬA LỖI: Thêm ".login-container" */
+/* --- CỘT PHẢI: ẢNH MINH HỌA --- */
 .login-container .containerImg {
-  flex-basis: 50%;
-  flex-grow: 1;
+  flex: 1;
+  background-color: #f1f5f9;
 }
 
 .login-container .containerImg img {
@@ -203,36 +184,32 @@
   object-fit: cover;
 }
 
-/* --- HIỂN THỊ LỖI --- */
+/* Thông báo lỗi */
 .login-container .error-alert {
-  color: #721c24;
-  background-color: #f8d7da;
-  border-color: #f5c6cb;
-  padding: 0.75rem 1.25rem;
+  background: var(--error-bg);
+  color: var(--error-text);
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 0.85rem;
   margin-bottom: 1rem;
-  border: 1px solid transparent;
-  border-radius: 0.25rem;
-  text-align: center;
+  border: 1px solid #fecaca;
 }
 
-/* --- RESPONSIVE CHO ĐIỆN THOẠI --- */
-@media (max-width: 991px) {
-  .login-container .container {
-    flex-direction: column;
-    max-width: 500px;
-    margin: 2rem 1rem;
-  }
+/* Nút quay lại */
+.login-container #quaylai {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
 
-  .login-container .containerImg {
-    display: none; 
-  }
+.login-container #quaylai a {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  text-decoration: none;
+}
 
-  .login-container .containerContent {
-    width: 100%;
-  }
-
-  .login-container #quaylai {
-    top: 15px;
-    left: 15px;
-  }
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .login-container .containerImg { display: none; }
+  .login-container .container { max-width: 450px; }
 }

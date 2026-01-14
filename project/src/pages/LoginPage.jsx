@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext.jsx'; 
 import { useNavigate, Link } from 'react-router-dom';
 import './login.css'; 
-
+import googleIcon from '../assets/search.png';
 function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -117,12 +117,9 @@ function LoginPage() {
           <h6>Or continue with</h6>
           <div className="logins">
             <button onClick={handleGoogleLogin} disabled={loading} className="social-btn">
-              <img src="/Media/search.png" alt="google" />
+              <img src={googleIcon} alt="google" />
             </button>
-            <button className="social-btn"><img src="/Media/github.png" alt="github" /></button>
-            <button onClick={handleFacebookLogin} disabled={loading} className="social-btn">
-              <img src="/Media/facebook.png" alt="facebook" />
-            </button>
+            
           </div>
           <p>Don't have an account yet? <Link to="/register">Sign up</Link></p>
         </div>

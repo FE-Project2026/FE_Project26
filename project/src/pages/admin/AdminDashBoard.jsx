@@ -104,49 +104,64 @@ export default function AdminDashboard() {
   };
 
   // --- 4. Xử lý hành động ---
+  // --- 4. Xử lý hành động (Đã cập nhật thêm Toast thông báo gửi mail bác sĩ) ---
   const handleAction = async (type, id, extraData) => {
     setOpenMenuId(null);
     const collectionName = activeTab === 'appointments' ? 'appointments' : 'users';
     const docRef = doc(db, collectionName, id);
 
-    // Lấy thông tin đối tượng đang thao tác để gửi mail
+    // Lấy thông tin đối tượng đang thao tác để lấy email/tên gửi mail
     const currentItem = data.find(item => item.id === id);
 
     try {
       // --- DUYỆT BÁC SĨ ---
       if (type === 'APPROVE_DOC') {
         await updateDoc(docRef, { isVerified: true, status: 'active' });
-        toast.success("Đã phê duyệt bác sĩ!");
-        
-        // Gửi mail Approved
-        if (currentItem) await sendDoctorEmail(currentItem, 'approved');
+        toast.success("Hồ sơ bác sĩ đã được duyệt trên hệ thống!");
+
+        // Gửi mail Approved và thông báo Toast
+        if (currentItem) {
+          await sendDoctorEmail(currentItem, 'approved');
+          toast.success(`Đã gửi mail chúc mừng tới bác sĩ: ${currentItem.email}`);
+        }
       } 
-      // --- TỪ CHỐI BÁC SĨ (MỚI) ---
+      // --- TỪ CHỐI BÁC SĨ ---
       else if (type === 'REJECT_DOC') {
         if (window.confirm("Bạn có chắc muốn từ chối và XÓA hồ sơ này? Email thông báo sẽ được gửi đi.")) {
             // Xóa bác sĩ khỏi database
             await deleteDoc(docRef);
-            toast.success("Đã từ chối và xóa hồ sơ!");
+            toast.success("Đã từ chối và xóa hồ sơ bác sĩ!");
             
-            // Gửi mail Rejected (Dùng thông tin đã lưu trước khi xóa)
-            if (currentItem) await sendDoctorEmail(currentItem, 'rejected');
+            // Gửi mail Rejected và thông báo Toast
+            if (currentItem) {
+              await sendDoctorEmail(currentItem, 'rejected');
+              toast.success(`Đã gửi mail thông báo từ chối tới: ${currentItem.email}`);
+            }
+
+            // Nếu đang mở Modal chi tiết thì đóng lại sau khi xóa
+            if (selectedDetail && selectedDetail.id === id) setSelectedDetail(null);
         }
       }
-      // --- CÁC HÀNH ĐỘNG KHÁC ---
+      // --- KHÓA/MỞ KHÓA TÀI KHOẢN ---
       else if (type === 'TOGGLE_STATUS') {
         const newStatus = extraData === 'banned' ? 'active' : 'banned';
         await updateDoc(docRef, { status: newStatus });
-        toast.success(newStatus === 'banned' ? "Đã khóa" : "Đã mở khóa");
-      } else if (type === 'DELETE') {
+        toast.success(newStatus === 'banned' ? "Đã khóa tài khoản thành công" : "Đã mở khóa tài khoản thành công");
+      } 
+      // --- XÓA DỮ LIỆU CHUNG ---
+      else if (type === 'DELETE') {
         if (window.confirm("Xác nhận xóa vĩnh viễn dữ liệu này?")) {
           await deleteDoc(docRef);
-          toast.success("Đã xóa thành công!");
+          toast.success("Đã xóa dữ liệu vĩnh viễn!");
+          if (selectedDetail && selectedDetail.id === id) setSelectedDetail(null);
         }
-      } else if (type === 'UPDATE_APPT') {
+      } 
+      // --- CẬP NHẬT TRẠNG THÁI LỊCH HẸN ---
+      else if (type === 'UPDATE_APPT') {
         await updateDoc(docRef, { status: extraData });
-        toast.success("Đã cập nhật trạng thái!");
+        toast.success(`Đã cập nhật trạng thái lịch hẹn thành: ${extraData}`);
 
-        // Gửi mail nếu duyệt lịch
+        // Gửi mail nếu duyệt lịch khám cho bệnh nhân
         if (extraData === 'confirmed' && currentItem) {
           await sendApprovalEmail(currentItem);
         }
@@ -155,7 +170,6 @@ export default function AdminDashboard() {
       toast.error("Lỗi thao tác: " + err.message); 
     }
   };
-
   const filteredData = data.filter(item => 
     (item.patientName || item.displayName || item.name || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
     (item.email || item.phone || "").includes(searchTerm)
