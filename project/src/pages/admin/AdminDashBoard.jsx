@@ -83,7 +83,7 @@ export default function AdminDashboard() {
     } catch (error) { console.error("Lỗi API mail:", error); }
   };
 
-  // --- 3. HÀM GỬI EMAIL CHO BÁC SĨ (MỚI THÊM) ---
+  // --- 3. HÀM GỬI EMAIL CHO BÁC SĨ ---
   const sendDoctorEmail = async (docData, status) => {
     try {
       await fetch("http://localhost:3002/api/send-doctor-result", {
@@ -104,7 +104,6 @@ export default function AdminDashboard() {
   };
 
   // --- 4. Xử lý hành động ---
-  // --- 4. Xử lý hành động (Đã cập nhật thêm Toast thông báo gửi mail bác sĩ) ---
   const handleAction = async (type, id, extraData) => {
     setOpenMenuId(null);
     const collectionName = activeTab === 'appointments' ? 'appointments' : 'users';

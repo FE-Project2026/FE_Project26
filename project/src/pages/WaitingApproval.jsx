@@ -1,3 +1,4 @@
+// src/pages/WaitingApproval.jsx
 import React from 'react';
 import { Container, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
@@ -10,11 +11,15 @@ export default function WaitingApproval() {
       <div style={{ maxWidth: '500px' }}>
         <FontAwesomeIcon icon={faClock} size="5x" className="text-warning mb-4" />
         <h2 className="fw-bold">Hồ sơ đang chờ duyệt</h2>
-        <p className="text-muted">
-          Admin đang kiểm tra thông tin của bác sĩ. Quá trình này thường mất 24h. 
-          Vui lòng quay lại sau khi hồ sơ được phê duyệt.
+        <p className="text-muted my-4">
+          Cảm ơn bạn đã đăng ký trở thành đối tác. Hồ sơ của bạn đã được gửi đến Ban quản trị. 
+          Quá trình xét duyệt thường mất từ <strong>12-24 giờ</strong>.
+          <br />
+          Chúng tôi sẽ gửi thông báo qua email khi tài khoản được kích hoạt.
         </p>
-        <Link to="/"><Button variant="primary">Quay về trang chủ</Button></Link>
+        <Link to="/">
+          <Button variant="outline-primary">Về trang chủ</Button>
+        </Link>
       </div>
     </Container>
   );

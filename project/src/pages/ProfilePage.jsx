@@ -31,8 +31,6 @@ function ProfilePage() {
   // ================= 1. THEO DÕI LỊCH HẸN (KHỚP DATABASE THẬT) =================
   useEffect(() => {
     if (!currentUser?.uid) return;
-
-    // Lấy từ collection 'appointments' ở gốc giống như hình ảnh bạn cung cấp
     const q = query(
       collection(db, 'appointments'),
       where('patientId', '==', currentUser.uid),
@@ -73,7 +71,7 @@ function ProfilePage() {
       const ref = doc(db, 'artifacts', appId, 'users', currentUser.uid, 'profile', 'info');
       await setDoc(ref, profile);
       toast.success("Cập nhật thành công!");
-      setIsEditing(false); // ✅ TỰ ĐỘNG ẨN BẢNG SAU KHI LƯU
+      setIsEditing(false); // TỰ ĐỘNG ẨN BẢNG SAU KHI LƯU
     } catch (err) {
       toast.error("Lỗi khi lưu thông tin");
     } finally {
@@ -144,7 +142,7 @@ function ProfilePage() {
           <AIChat />
         </Col>
 
-        {/* ============ CỘT PHẢI: LỊCH SỬ ĐẶT LỊCH (SỬA THEO DATABASE) ============ */}
+        {/* ============ CỘT PHẢI: LỊCH SỬ ĐẶT LỊCH  ============ */}
         <Col md={8}>
           <div className="d-flex justify-content-between align-items-center mb-4">
             <h2 className="fw-bold mb-0">Lịch hẹn của tôi</h2>

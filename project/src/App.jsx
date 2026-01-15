@@ -29,10 +29,11 @@ import AboutPage from './pages/AboutPage.jsx';
 import Dashboard from './pages/doctor/DoctorDashBoard.jsx';
 import DoctorLogin from './pages/doctor/DoctorLogin.jsx';
 import DoctorRegister from './pages/doctor/DoctorRegister.jsx';
+import WaitingApproval from './pages/WaitingApproval'; 
 // Import CSS
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css'; 
-
+import AIChatBot from './components/AIChat.jsx'
 
 const PublicLayoutWrapper = () => {
   return (
@@ -48,52 +49,61 @@ const PublicLayoutWrapper = () => {
 
 function App() {
   return (
-    <Routes>
-      {/* === 1. TUYẾN ĐƯỜNG XÁC THỰC (KHÔNG CÓ NAVBAR/FOOTER) === */}
-      {/* Đặt các trang Auth ở ngoài cùng để chúng không kế thừa layout */}
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/register" element={<RegisterPage />} />
-
-
-      {/* === 2. TUYẾN ĐƯỜNG CÔNG KHAI (Dùng Layout) === */}
-      <Route element={<PublicLayoutWrapper />}>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/services" element={<ServicesPage />} />
-        <Route path="/services/privatedoctors" element={<PrivateDoctors />} />
-        <Route path="/services/TestIndex" element={<TestIndex />} />
-        <Route path="/services/Test" element={<Test />} />
-        <Route path="/services/psychology" element={<PsychologyPage />} />
-        <Route path="/services/telemedicine" element={<TelemedicinePage />} />
-        <Route path="/experts/list" element={<ExpertListPage />} />
-        <Route path="/experts/consult" element={<ExpertConsultPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/dat-lich/:id" element={<BookDoc />} />
-      </Route>
-      <Route path="/community/forum" element={<CommunityPage />} />
-      <Route path="/community/support" element={<CommunityPage />} />
-      <Route path="/about" element={<AboutPage />} />
-      <Route path= "/doctor/login" element= {<DoctorLogin/>} />
-      <Route path= "/doctor/register" element= {<DoctorRegister/>} />
-      <Route path= "/doctor/dashboard" element= {<Dashboard/>} />
+    <> {/* <--- QUAN TRỌNG: Thẻ bao ngoài (Fragment) để bọc ChatBot và Routes */}
       
-      <Route path="/about/mission" element={<AboutPage />} />
-      {/* === 3. TUYẾN ĐƯỜNG ADMIN (ĐƯỢC BẢO VỆ) === */}
-      <Route element={<ProtectedRoute />}>
-        <Route path="/admin" element={<AdminLayout />}>
-          <Route index element={<AdminDashboard />} /> 
-          {/* ... các tuyến admin con khác ... */}
-        </Route>
-      </Route>
+      {/* Hiển thị ChatBot trên mọi trang */}
+      <AIChatBot />
 
-      {/* === 4. ROUTE 404 (KHÔNG TÌM THẤY) === */}
-      <Route path="*" element={
-        <div className="container" style={{ marginTop: '100px', textAlign: 'center' }}>
-          <h2>404 - Không tìm thấy trang</h2>
-          <Link to="/">Về Trang chủ</Link>
-        </div>
-      } />
-    </Routes>
+      <Routes>
+        {/* === 1. TUYẾN ĐƯỜNG AUTH & RIÊNG BIỆT (KHÔNG NAVBAR) === */}
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        
+        {/* Tuyến đường cho Bác sĩ (Không dùng Navbar của bệnh nhân) */}
+        <Route path="/doctor/login" element={<DoctorLogin />} />
+        <Route path="/doctor/register" element={<DoctorRegister />} />
+        <Route path="/doctor/dashboard" element={<Dashboard />} />
+        <Route path="/waiting-approval" element={<WaitingApproval />} />
+
+        {/* === 2. TUYẾN ĐƯỜNG CÔNG KHAI (CÓ NAVBAR + FOOTER) === */}
+        {/* Tôi đã đưa About và Community vào đây để chúng có Navbar */}
+        <Route element={<PublicLayoutWrapper />}>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/services" element={<ServicesPage />} />
+          <Route path="/services/privatedoctors" element={<PrivateDoctors />} />
+          <Route path="/services/TestIndex" element={<TestIndex />} />
+          <Route path="/services/Test" element={<Test />} />
+          <Route path="/services/psychology" element={<PsychologyPage />} />
+          <Route path="/services/telemedicine" element={<TelemedicinePage />} />
+          <Route path="/experts/list" element={<ExpertListPage />} />
+          <Route path="/experts/consult" element={<ExpertConsultPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/dat-lich/:id" element={<BookDoc />} />
+          
+          {/* Đưa các trang này vào trong Layout để có Menu đẹp hơn */}
+          <Route path="/community/forum" element={<CommunityPage />} />
+          <Route path="/community/support" element={<CommunityPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/about/mission" element={<AboutPage />} />
+        </Route>
+
+        {/* === 3. TUYẾN ĐƯỜNG ADMIN (LAYOUT RIÊNG) === */}
+        <Route element={<ProtectedRoute />}>
+          <Route path="/admin/*" element={<AdminLayout />}> {/* Thêm dấu * để hỗ trợ nested routes */}
+            <Route index element={<AdminDashboard />} /> 
+          </Route>
+        </Route>
+
+        {/* === 4. ROUTE 404 === */}
+        <Route path="*" element={
+          <div className="container" style={{ marginTop: '100px', textAlign: 'center' }}>
+            <h2>404 - Không tìm thấy trang</h2>
+            <Link to="/">Về Trang chủ</Link>
+          </div>
+        } />
+      </Routes>
+    </>
   );
-}   
+} 
 
 export default App;

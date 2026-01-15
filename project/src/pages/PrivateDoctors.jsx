@@ -83,7 +83,7 @@ function PrivateDoctorPage() {
   const [showBookingModal, setShowBookingModal] = useState(false);
   const [selectedDoctorName, setSelectedDoctorName] = useState("");
 
-  // 2. Modal Chi tiết (MỚI)
+  // 2. Modal Chi tiết 
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [selectedDoctor, setSelectedDoctor] = useState(null); // Lưu toàn bộ object bác sĩ
 
@@ -100,7 +100,7 @@ function PrivateDoctorPage() {
     setShowBookingModal(true);
   };
 
-  // Hàm mở Modal Chi tiết (MỚI)
+  // Hàm mở Modal Chi tiết 
   const handleShowDetail = (doctor) => {
     setSelectedDoctor(doctor);
     setShowDetailModal(true);
@@ -165,7 +165,7 @@ function PrivateDoctorPage() {
                       Đặt lịch
                     </Button>
                     
-                    {/* SỬA NÚT CHI TIẾT: Gọi hàm mở Modal Chi tiết */}
+                    {/* Gọi hàm mở Modal Chi tiết */}
                     <Button 
                         variant="success" 
                         className="rounded-pill px-4"
@@ -192,7 +192,7 @@ function PrivateDoctorPage() {
         doctorName={selectedDoctorName}
       />
 
-      {/* 2. Modal Chi tiết (MỚI) */}
+      {/* 2. Modal Chi tiết  */}
       <DoctorDetailModal 
         show={showDetailModal}
         handleClose={() => setShowDetailModal(false)}

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
+import { useLocation } from "react-router-dom"; 
 import "./AIChat.css";
 
 export default function AIChat() {
@@ -7,7 +8,21 @@ export default function AIChat() {
     { role: "assistant", content: "Xin chào, tôi là trợ lý sức khỏe AI. Bạn cần hỗ trợ gì?" }
   ]);
   const [input, setInput] = useState("");
-  const [isOpen, setIsOpen] = useState(true); // 👈 thêm state này
+  const [isOpen, setIsOpen] = useState(true);
+
+  const location = useLocation();
+  const hiddenRoutes = [
+    '/login', 
+    '/register', 
+    '/doctor/login', 
+    '/doctor/register',
+    '/waiting-approval',
+    '/WaitingApproval'
+  ];
+
+  if (hiddenRoutes.includes(location.pathname)) {
+    return null;
+  }
 
   const sendMessage = async () => {
     if (!input.trim()) return;
@@ -28,7 +43,6 @@ export default function AIChat() {
 
   return (
     <>
-      {/* Icon khi thu nhỏ */}
       {!isOpen && (
         <div className="chat-fab" onClick={() => setIsOpen(true)}>
           💬
@@ -42,8 +56,6 @@ export default function AIChat() {
           <span>AI Health Assistant</span>
           <button onClick={() => setIsOpen(false)}>—</button>
         </div>
-
-        {/* Nội dung chat */}
         <div className="chatbox-body">
           {messages.map((m, i) => (
             <div key={i} className={`msg ${m.role}`}>
@@ -51,8 +63,6 @@ export default function AIChat() {
             </div>
           ))}
         </div>
-
-        {/* Input */}
         <div className="chatbox-footer">
           <Form.Control
             value={input}
